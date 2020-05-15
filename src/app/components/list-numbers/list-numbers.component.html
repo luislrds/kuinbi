@@ -1,0 +1,19 @@
+<h4>Parámetros guardados</h4>
+  
+  <mat-accordion>
+    <mat-expansion-panel *ngFor="let item of items | async">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{item.parameter }}
+        </mat-panel-title>
+        <mat-panel-description>
+          Expandir para ver los múltiplos
+        </mat-panel-description>
+      </mat-expansion-panel-header>    
+      <mat-grid-list cols="{{getColumns(item.item.length)}}" rowHeight="6:1" >
+        <mat-grid-tile *ngFor="let number of item.item"
+          [ngClass]="assignColor(number.multiples)">{{number.number}}
+        </mat-grid-tile>             
+      </mat-grid-list>
+    </mat-expansion-panel>
+  </mat-accordion>

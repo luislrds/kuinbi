@@ -1,0 +1,56 @@
+<div *ngIf="new">
+  <form [formGroup]="itemsForm" (ngSubmit)="onSubmit()" >
+    <mat-card class="shipping-card">
+        <mat-card-header>
+            <button mat-raised-button color="warn" type="button" (click)="new = !new" >Guardados</button>  
+            <mat-card-title>Determinar los múltiplos de 3, 5 y 7 de un número mayor que 0</mat-card-title>                                                                                      
+        </mat-card-header>
+        <mat-card-content>
+          <br>     
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Ingresar número" (input)="changeValue()" formControlName='parameter'>
+          </mat-form-field> 
+        </mat-card-content> 
+        <mat-card-actions class="text-right">
+          <button *ngIf="!isLoading" mat-raised-button color="primary" [disabled]="itemsForm.invalid" type="submit">Guardar</button>            
+          <mat-spinner *ngIf="isLoading" mode="indeterminate" color="warn" [diameter]="30"></mat-spinner>
+        </mat-card-actions>
+    </mat-card>     
+    <mat-grid-list cols="{{getColumns(itemsForm.controls['item'].value?.length)}}" rowHeight="{{getRowHeigth(itemsForm.controls['item'].value?.length)}}" >
+      <mat-grid-tile *ngFor="let number of itemsForm.controls['item'].value"
+        [ngClass]="assignColor(number.multiples)">{{number.number | changevalue : number}}
+      </mat-grid-tile>             
+    </mat-grid-list>
+</form>
+</div>
+
+<div *ngIf="!new">
+  <mat-card class="shipping-card">
+    <mat-card-header>
+        <button mat-raised-button color="warn" type="button" (click)="new = !new">Nuevo</button>   
+        <mat-card-title>Parámetros guardados</mat-card-title>                                                 
+    </mat-card-header>
+    <mat-card-content>
+      <br>        
+      <mat-accordion>
+        <mat-expansion-panel *ngFor="let item of items | async">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{item.parameter }}
+            </mat-panel-title>
+            <mat-panel-description>
+              Expandir para ver los múltiplos
+            </mat-panel-description>
+          </mat-expansion-panel-header>    
+          <mat-grid-list cols="{{getColumns(item.item.length)}}" rowHeight="{{getRowHeigth(item.item.length)}}" >
+            <mat-grid-tile *ngFor="let number of item.item"
+              [ngClass]="assignColor(number.multiples)">{{number.number | changevalue : number}}
+            </mat-grid-tile>             
+          </mat-grid-list>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </mat-card-content> 
+</mat-card>     
+ 
+  
+</div>
